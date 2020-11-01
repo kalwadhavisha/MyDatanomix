@@ -289,12 +289,13 @@
 			function setChart(response) {
 				console.log("Response from New Function: ");
 				console.log(response);
+				var header = `${paramSelect.options[paramSelect.selectedIndex].innerText} for NASDAQ-100 companies`;
 				myChart.data = {
 					labels: response.compSymbols,
 					longlabels: response.compLongNames,
 					datasets: [
 						{
-							label: "Market Capitalization for NASDAQ-100 companies",
+							label: header,
 							data: response.compDataVal,
 							backgroundColor: gradientStroke,
 							borderColor: "rgb(0,0,0)",
