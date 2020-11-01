@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('./partials/head.ejs') %>
+	<body class="container">
+		<%- include('./partials/navbar.ejs') %> <%- include('./partials/landing-page.ejs') %>
+		<%-include('./partials/about-website.ejs') %>
+
+		<div class="container__searchBar" id="searchBar">
+			<form action="/company-search" class="search-company-form" method="POST">
+				<input
+					class="searchBar"
+					id="searchBar"
+					name="searchBar"
+					type="text"
+					action="/admin/search"
+					method="POST"
+					placeholder="Enter NASDAQ-100 Company Name"
+				/>
+			</form>
+		</div>
+		<br />
+
+		<% if(companyName != null) { %> <%- include('./partials/company-overview.ejs') %>
+		<%if(companyPayoutRatio != "0") { %> <%- include('./partials/dividend.ejs') %> <% } %>
+
+		<!--
+
+		<div class="container__graph-area-3">
+			<form action="#">
+				<p>
+					<input type="checkbox" class="graph-params" value="total-current-assets" />
+					<label for="graph-params">Total Current Assets</label><br />
+				</p>
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Total Non-Current Assets</label><br />
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Total Assets</label><br />
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Total Current Liabilities</label><br />
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Total Non-Current Liabilities</label><br />
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Total Liabilities</label><br />
+
+				<input type="checkbox" class="graph-params" name="" value="" />
+				<label for="graph-params">Stockholders' Equity</label><br />
+			</form>
+		</div> -->
+		<% } else { %>
+		<div class="container__timepass-div">
+			<img
+				class="timepass-background"
+				style="position: absolute; z-index: 1"
+				src="img/bk-image.svg"
+				height="100%"
+				width="100%"
+			/>
+			<p class="timepass-text" style="position: absolute; z-index: 10">
+				Enter any NASDAQ-100 company name above in the search bar to view the company's
+				performance through Key Fundamental Parameters and Ratios, visualize their Balance
+				Sheet Parameters and understand their Cash Flows.
+			</p>
+		</div>
+		<% } %>
+
+		<div class="container__future-work">
+			<div class="container__future-work__text-box">
+				<h4 class="heading-about-section">
+					Watch this space for more exciting content coming up!
+				</h4>
+				<p class="feature_text">
+					Our work shall not just be limited to NASDAQ-100 companies. We have great plans
+					ahead to bring visualizations for all markets! Also, look out for some more
+					exciting features using AI to help you better understand the economic data.
+				</p>
+			</div>
+
+			<div class="container__future-work__logo-box">
+				<img
+					class="about-section-futurework"
+					src="img/future-work.svg"
+					height="350"
+					width="350"
+				/>
+			</div>
+		</div>
+
+		<div class="container__contact-form" id="contact-us">
+			<div class="container__contact-form__image">
+				<img
+					class="about-section-futurework"
+					src="img/contact-form.svg"
+					height="300"
+					width="300"
+				/>
+			</div>
+
+			<div class="container__contact-form__form">
+				<div class="contact-form-header">We would love to hear from you!</div>
+				<form role="form" method="POST" action="/contact-form" id="reused_form">
+					<label for="name">Name</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						placeholder="Your name here"
+						required
+					/>
+
+					<label for="email">E-mail</label>
+					<input
+						type="text"
+						class="form-control"
+						id="email"
+						name="email"
+						required
+						placeholder="Your e-mail here"
+					/>
+
+					<label for="message">Message</label>
+					<textarea
+						id="message"
+						type="text"
+						name="message"
+						placeholder="Your message here"
+						maxlength="6000"
+						required
+						style="height: 15vh"
+					></textarea>
+
+					<input class="submit" type="submit" value="Submit" />
+				</form>
+			</div>
+		</div>
+
+		<div class="container__footer">
+			<p>&copy; Copyright 2020. mydatanomix.com. All Rights Reserved.</p>
+			<div style="font-size: 10px; padding-top: 25px">
+				Icons made by
+				<a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from
+				<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function () {
+				$(".submit").on("click", function (e) {
+					console.log(e);
+				});
+			});
+			var companies_list = [
+				{ label: "Amazon.com, Inc", value: "AMZN" },
+				{ label: "Apple Inc", value: "AAPL" },
+				{ label: "Facebook, Inc", value: "FB" },
+				{ label: "Microsoft Corporation", value: "MSFT" },
+			];
+
+			var input = document.getElementById("searchBar");
+
+			autocomplete({
+				input: input,
+				fetch: function (text, update) {
+					text = text.toLowerCase();
+					var suggestions = companies_list.filter((n) =>
+						n.label.toLowerCase().startsWith(text)
+					);
+					update(suggestions);
+					console.log(suggestions);
+				},
+				onSelect: function (item) {
+					input.value = item.label;
+				},
+			});
+		</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</body>
+</html>

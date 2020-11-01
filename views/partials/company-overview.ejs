@@ -1,0 +1,395 @@
+<div class="container__viewSelectButtons">
+	<button class="viewButton" style="margin-left: 10%; margin-right: 10%">Company Overview</button>
+	<button class="viewButton" style="margin-right: 10%">Balance Sheet</button>
+	<button class="viewButton">Cash Flow</button>
+</div>
+
+<div class="container__graph-area-ratios-top">
+	<div class="graph-area-squares">
+		<span class="graph-area-header">Company Name:</span>
+		<span class="graph-area-value"><%= companyName %></span>
+
+		<span style="display: inline" class="graph-area-header">Ticker:</span>
+		<span style="display: inline" class="graph-area-value"><%= companyTicker %></span>
+
+		<span style="display: inline" class="graph-area-header">Asset Type:</span>
+		<span style="display: inline" class="graph-area-value"><%= companyAssetType %></span>
+	</div>
+	<div class="graph-area-squares">
+		<span style="display: inline" class="graph-area-header">Sector:</span>
+		<span style="display: inline" class="graph-area-value"><%= companySector %></span>
+
+		<div class="graph-area-header">Latest Quarter:</div>
+		<div class="graph-area-value"><%= companyLatestQuarter %></div>
+
+		<div class="graph-area-header">Headquarters:</div>
+		<div class="graph-area-value"><%= companyHQ %></div>
+	</div>
+</div>
+
+<div class="section-headers">KEY PARAMETERS</div>
+
+<div class="container__graph-area-ratios">
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Market Capitalization</div>
+		<div class="graph-area-value">$ <%= companyMarketCap %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Gross Profit</div>
+		<div class="graph-area-value">$ <%= companyGrossProfit %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Revenue</div>
+		<div class="graph-area-value">$ <%= companyRevenue %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Operating Margin</div>
+		<div class="graph-area-value"><%= companyOperatingMargin %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Profit Margin</div>
+		<div class="graph-area-value"><%= companyProfitMargin %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Revenue Per Share</div>
+		<div class="graph-area-value">$ <%= companyRevenuePerShare %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Earnings Per Share</div>
+		<div class="graph-area-value">$ <%= companyEPS %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Return on Assets</div>
+		<div class="graph-area-value"><%= companyReturnOnAssets %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Return on Equity</div>
+		<div class="graph-area-value"><%= companyReturnOnEquity %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Diluted EPS</div>
+		<div class="graph-area-value"><%= companyDilutedEPS %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">EBITDA</div>
+		<div class="graph-area-value">$ <%= companyEBITDA %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Price to Earnings (PE) Ratio</div>
+		<div class="graph-area-value"><%= companyPERatio %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">PE to Growth (PEG) Ratio</div>
+		<div class="graph-area-value"><%= companyPEGRatio %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Book Value</div>
+		<div class="graph-area-value"><%= companyBookValue %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Quarterly Earnings Growth Year-on-Year</div>
+		<div class="graph-area-value"><%= companyQuarterlyEarningsYOY %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Quarterly Revenue Growth Year-on-Year</div>
+		<div class="graph-area-value"><%= companyQuarterlyRevenueYOY %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Trailing PE</div>
+		<div class="graph-area-value"><%= companyTrailingPE %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Forward PE</div>
+		<div class="graph-area-value"><%= companyForwardPE %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Price to Sales Ratio</div>
+		<div class="graph-area-value"><%= companyPriceToSales %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Price to Book Ratio</div>
+		<div class="graph-area-value"><%= companyPriceToBook %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">EV to Revenue</div>
+		<div class="graph-area-value"><%= companyEVToRevenue %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">EV to EBITDA</div>
+		<div class="graph-area-value"><%= companyEVTOEBITDA %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Beta</div>
+		<div class="graph-area-value"><%= companyBeta %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Shares Outstanding</div>
+		<div class="graph-area-value"><%= companySharesOutstanding %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Shares Float</div>
+		<div class="graph-area-value"><%= companySharesFloat %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Shares Short</div>
+		<div class="graph-area-value"><%= companySharesShort %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Shares Short Prior Month</div>
+		<div class="graph-area-value"><%= companySharesShortPriorMonth %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Short Ratio</div>
+		<div class="graph-area-value"><%= companyShortRatio %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Short Percent Outstanding</div>
+		<div class="graph-area-value"><%= companyShortPercentOutstanding %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Short Percent Float</div>
+		<div class="graph-area-value"><%= companyShortPercentFloat %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Percent Institutions</div>
+		<div class="graph-area-value"><%= companyPercentInstitutions %> %</div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Percent Insiders</div>
+		<div class="graph-area-value"><%= companyPercentInsiders %> %</div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+
+	<div class="graph-area-squares">
+		<div class="graph-area-header">Latest Quarter</div>
+		<div class="graph-area-value"><%= companyLatestQuarter %></div>
+		<div class="hover-display">
+			<p class="hover-text">
+				Market Capitalization: Total number of outstanding shares multiplied by the current
+				market price of the stock.
+			</p>
+		</div>
+	</div>
+</div>

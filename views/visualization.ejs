@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>mydatanomix</title>
+		<link rel="shortcut icon" href="#" type="image/x-icon" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+		
+
+		<!--<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"></script>-->
+		<style>
+			body {
+				font-family: "Source Sans Pro", sans-serif;
+				background-color: #fcfcfc;
+			}
+			.side-bar-elements {
+				color: #999;
+				text-align: center;
+				font-size: 16px;
+				font-family: "Source Sans Pro", sans-serif;
+				cursor: pointer;
+			}
+
+			.dropdown-content {
+				display: inline-block;
+				position: center;
+				background-color: ffffff;
+				border-radius: 5px;
+				width: 100%;
+				font-family: "Source Sans Pro", sans-serif;
+				/*box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);*/
+				z-index: 1;
+				/*overflow: scroll;*/
+			}
+
+			.arrow {
+				border: solid #fff;
+				border-width: 0 3px 3px 0;
+				display: inline-block;
+				padding: 4px;
+				margin-left: 1vw;
+			}
+
+			.down {
+				transform: rotate(45deg);
+				-webkit-transform: rotate(45deg);
+			}
+
+			select,option, optgroup {
+				background: #ffffff !important;
+				font-family: "Source Sans Pro", sans-serif;
+				border-radius: 5px;
+				outline: none;
+				box-shadow: 0px 0px 3px 1px rgba(172, 172, 172, 0.44);
+				border: 1px solid #ccc;
+				height: 3.5vh;
+				width: 85%;
+				font-size: 16px;
+				margin-top: 5vh;
+				margin-bottom: 3vh;
+				padding-left: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div
+			class="container"
+			style="display: grid; grid-template-rows: 4vw 2vh repeat(7, min-content)"
+		>
+			<div
+				class="container__nav-bar"
+				style="position: fixed; height: 8vh; background: #fcfcfc; z-index: 10"
+			>
+				<div class="container__nav-bar-logo">
+					<h3 alt="Logo" href="#" class="navbar_logo">mydatanomix</h3>
+				</div>
+				<div class="container__nav-bar-contents">
+					<a href="#about-section" style="text-decoration: none"
+						><h4 class="navbar-contents">About Us</h4></a
+					>
+					<a href="#searchBar" style="text-decoration: none"
+						><h4 class="navbar-contents">Company Search</h4></a
+					>
+					<a href="#contact-us" style="text-decoration: none"
+						><h4 class="navbar-contents">Contact Us</h4></a
+					>
+				</div>
+			</div>
+		</div>
+		<!-- Sidebar fixed  box-shadow: 0 0 1rem #ccc; -->
+		<div
+			class="side-bar"
+			style="
+				position: fixed;
+				border: none;
+				box-shadow: 0 0 25px 1px rgba(215, 215, 215, 0.9);
+				border-radius: 7px;
+				height: 80vh;
+				text-align: center;
+				width: 20vw;
+				background: #fff;
+				padding: 5px;
+				margin-top: 3vh;
+			"
+		>
+			
+			<div class="dropdown" style="position: relative; color: #999; font-size: 18px; margin-top: 2vh; margin-left: auto; margin-right: auto; margin-bottom: 2vh; display: inline-block">
+				<div class="dropdown-content" >
+					<label for="parameters" >
+						From the Dropdown below, select any Performance Overview parameter to visualize
+					</label>
+					<select name="parameters" id="paramSelect" onchange="ChangeParamsDisplay()">
+						<optgroup class="dropdown-class">
+							<option value="MarketCapitalization">Market Capitalization</option>
+							<option value="GrossProfitTTM">Gross Profit</option>
+							<option value="RevenueTTM">Revenue</option>
+							<option value="EBITDA">EBITDA</option>
+							<option value="PERatio">PE Ratio</option>
+							<option value="PEGRatio">PEG Ratio</option>
+							<option value="BookValue">Book Value</option>
+							<option value="EPS">Earnings Per Share</option>
+							<option value="DilutedEPSTTM">Diluted EPS</option>
+							<option value="RevenuePerShareTTM">Revenue Per Share</option>
+							<option value="ProfitMargin">Profit Margin</option>
+							<option value="OperatingMarginTTM">Operating Margin</option>
+							<option value="ReturnOnAssetsTTM">Return on Assets</option>
+							<option value="ReturnOnEquityTTM">Return on Equity</option>
+							<option value="QuarterlyEarningsGrowthYOY">Quarterly Earnings Growth YoY</option>
+							<option value="QuarterlyRevenueGrowthYOY">Quarterly Revenue Growth YoY</option>
+							<option value="PriceToSalesRatioTTM">Price to Sales Ratio</option>
+							<option value="PriceToBookRatio">Price to Book Ratio</option>
+							<option value="EVToRevenue">EV to Revenue</option>
+							<option value="EVToEBITDA">EV to EBITDA</option>
+							<option value="Beta">Beta Value</option>
+							<option value="ShortRatio">Short Ratio</option>
+							<option value="ShortPercentOutstanding">Short Percentage Outstanding</option>
+							<option value="ShortPercentFloat">Short Percent Float</option>
+							<option value="PercentInsiders">Insiders Percentage</option>
+							<option value="PercentInstitutions">Institutions Percentage</option>
+							<option value="PayoutRatio">Payout Ratio</option>
+							<option value="DividendYield">Dividend Yield</option>
+							<option value="DividendPerShare">Dividend Per Share</option>
+							<option value="ForwardAnnualDividendRate">Forward Annual Dividend Rate</option>
+							<option value="ForwardAnnualDividendYield">Forward Annual Dividend Yield</option>
+						</optgroup>
+					</select>
+				</div>
+			</div>
+			<div
+				class="side-bar-info"
+				style="margin-top: 12vh; margin-left: 10px;  margin-right: 10px"
+			>
+				<div
+					class="side-bar-info-heading"
+					style="color: #004b98; font-weight: bold; font-size: 24px"
+				>
+					Market Capitalization
+				</div>
+				<div
+					class="side-bar-info-desc"
+					style="margin-top: 2vh; color: #777; font-size: 18px"
+				>
+					Total number of outstanding shares multiplied by the
+					current market price of the stock.
+				</div>
+			</div>
+		</div>
+		<!-- Div for the charts  -->
+		<div
+			class="chart-container-div"
+			style="position: absolute; height: auto; margin-top: 3vh; width: 80vw; right:1vw"
+		>
+			<!-- *********   CHART 1: BAR CHART   *********** -->
+
+			<div
+				class="chart-container"
+				id="chartContainer"
+				style="
+					position: relative;
+					border-radius: 7px;
+					height: 400vh;
+					width: 70vw;
+					margin: auto;
+					background: #fff;
+					border: none;
+					box-shadow: 0 0 25px 1px rgba(215, 215, 215, 0.9);
+				"
+			>
+				<canvas id="myChart1" role="img"></canvas>
+			</div>
+			<div class="spacing" style="position: relative;margin-top: 5vh"></div>
+
+			
+
+		<script>
+			// *********   CHART 1: Hard Coded Bar Graph: Market Cap   ***********
+
+			var ctx = document.getElementById("myChart1").getContext("2d");
+			//var width = window.innerWidth || document.body.clientWidth;
+			var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+			gradientStroke.addColorStop(0,"#185a9d" );
+			//gradientStroke.addColorStop(0.5, "#94d973");
+			//gradientStroke.addColorStop(0.6, "#fad874");
+			gradientStroke.addColorStop(1, "#43cea2");
+			
+			var compSymbols = <%- JSON.stringify(compSymbols) %>;
+			var compLongNames = <%- JSON.stringify(compLongNames) %>;
+			var compDataVal = <%- JSON.stringify(compDataVal) %>;
+			console.log(compSymbols);
+
+			var myChart = new Chart(ctx, {
+				type: "horizontalBar",
+				data: {
+					labels: compLongNames,
+					longlabels: compSymbols,
+					datasets: [
+						{
+							label: "Market Capitalization for NASDAQ-100 companies",
+							data: compDataVal,
+							backgroundColor: gradientStroke,
+							borderColor: "rgb(0,0,0)",
+							order: 1,
+							hoverBackgroundColor: gradientStroke,
+							borderWidth: 0.2,
+							hoverBorderWidth: 2,
+						},
+					],
+				},
+				options: {
+					layout: {
+						padding: {
+							left: 3,
+							right: 10,
+							top: 10,
+							bottom: 30,
+						},
+					},
+					scales: {
+						xAxes: [
+							{
+								display: true,
+								position: "top",
+								ticks: {
+									beginAtZero: true,
+									callback: function (value, index, data) {
+										return value < 1000000
+											? "" + value + ""
+											: value < 1000000
+											? "$ " + value / 1000 + " K"
+											: value < 1000000
+											? "$ " + value / 1000000 + " M"
+											: "$ " + value / 1000000000 + " B";
+									},
+								},
+							},
+							
+						],
+					},
+					tooltips: {
+						callbacks: {
+							label: function (tooltipItem, data) {
+								var longlabel = data.longlabels[tooltipItem.index];
+								return longlabel + ": $" + tooltipItem.xLabel;
+							},
+						},
+					},
+					responsive: true,
+			    	maintainAspectRatio: false,
+					animation: {
+						duration: 1000,
+						easing: "linear",
+					},
+				},
+			});
+
+			function setChart(response) {
+				console.log("Response from New Function: ");
+				console.log(response);
+				myChart.data = {
+					labels: response.compSymbols,
+					longlabels: response.compLongNames,
+					datasets: [
+						{
+							label: "Market Capitalization for NASDAQ-100 companies",
+							data: response.compDataVal,
+							backgroundColor: gradientStroke,
+							borderColor: "rgb(0,0,0)",
+							order: 1,
+							hoverBackgroundColor: gradientStroke,
+							borderWidth: 0.2,
+							hoverBorderWidth: 2,
+						},
+					],
+				}
+				myChart.update();
+			}
+
+			
+
+			function ChangeParamsDisplay() {
+
+				var paramSelect = document.getElementById("paramSelect");
+
+				var valToSendApp = paramSelect.options[paramSelect.selectedIndex].value;
+				console.log("Value To Send ----------");
+				console.log(valToSendApp);
+				var dataToSend = {};
+				dataToSend.name = valToSendApp;
+				console.log("Data To Send ---------");
+				console.log(dataToSend);
+				var headerText = paramSelect.options[paramSelect.selectedIndex].innerText;
+				var compSymbols ;
+				var compLongNames ;
+				var compDataVal;
+				//myChart.destroy();
+
+
+				$.ajax({
+					url: "/viz-page",
+					method: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(dataToSend),
+					success: function(response) {
+						console.log("Response received in Viz.ejs: ");
+						console.log(response.compSymbols);
+						console.log(response.compLongNames);
+						console.log(response.compDataVal);
+
+						//var ctx = document.getElementById("myChart1").getContext("2d");
+
+						var compSymbolsNew =  response.compSymbols;
+						var compLongNamesNew = response.compLongNames;
+						var compDataValNew = response.compDataVal;
+						console.log(compSymbolsNew);
+						setChart(response);
+						/*
+						var myChart1 = new Chart(ctx, {
+							type: "horizontalBar",
+							data: {
+								labels: compLongNamesNew,
+								longlabels: compSymbolsNew,
+								datasets: [
+									{
+										label: ""+headerText+" for NASDAQ-100 companies",
+										data: compDataValNew,
+										backgroundColor: gradientStroke,
+										borderColor: "rgb(0,0,0)",
+										order: 1,
+										hoverBackgroundColor: gradientStroke,
+										borderWidth: 0.2,
+										hoverBorderWidth: 2,
+									},
+								],
+							},
+							options: {
+								layout: {
+									padding: {
+										left: 3,
+										right: 10,
+										top: 20,
+										bottom: 30,
+									},
+								},
+								scales: {
+									xAxes: [
+										{
+											display: true,
+											position: "top",
+											ticks: {
+												beginAtZero: true,
+												callback: function (value, index, data) {
+													return value < 1000000
+														? "" + value + ""
+														: value < 1000000
+														? "$ " + value / 1000 + " K"
+														: value < 1000000
+														? "$ " + value / 1000000 + " M"
+														: "$ " + value / 1000000000 + " B";
+												},
+											},
+										},
+									],
+								},
+								tooltips: {
+									callbacks: {
+										label: function (tooltipItem, data) {
+											var longlabel = data.longlabels[tooltipItem.index];
+											return longlabel + ": $" + tooltipItem.xLabel;
+										},
+									},
+								},
+								responsive: true,
+			     				maintainAspectRatio: false,
+								animation: {
+									duration: 500,
+									easing: "linear",
+								},
+							},
+						});
+						*/
+
+
+
+
+					}
+				})
+
+			};
+		</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+		
+	</body>
+</html>
