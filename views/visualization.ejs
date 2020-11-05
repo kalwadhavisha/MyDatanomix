@@ -24,8 +24,15 @@
 		<style>
 			body {
 				font-family: "Source Sans Pro", sans-serif;
-				background-color: #fcfcfc;
+				background-color: #fefefe;
 			}
+			html {
+    			font-size: 62.5%;
+    			box-sizing: border-box;
+   				background-color: #fefefe;
+}
+
+
 			.side-bar-elements {
 				color: #999;
 				text-align: center;
@@ -82,7 +89,7 @@
 		>
 			<div
 				class="container__nav-bar"
-				style="position: fixed; height: 8vh; background: #fcfcfc; z-index: 10"
+				style="position: fixed; height: 8vh; background: #ffffff; z-index: 10"
 			>
 				<div class="container__nav-bar-logo">
 					<h3 alt="Logo" href="#" class="navbar_logo">mydatanomix</h3>
@@ -104,14 +111,14 @@
 		<div
 			class="side-bar"
 			style="
-				position: fixed;
+				position: fixed; 
+				background: #ffffff;
 				border: none;
-				box-shadow: 0 0 25px 1px rgba(215, 215, 215, 0.9);
+				box-shadow: 0 0 15px 1px rgba(215, 215, 215, 0.7);
 				border-radius: 7px;
 				height: 80vh;
 				text-align: center;
 				width: 20vw;
-				background: #fff;
 				padding: 5px;
 				margin-top: 3vh;
 			"
@@ -196,7 +203,7 @@
 					margin: auto;
 					background: #fff;
 					border: none;
-					box-shadow: 0 0 25px 1px rgba(215, 215, 215, 0.9);
+					box-shadow: 0 0 15px 1px rgba(215, 215, 215, 0.7);
 				"
 			>
 				<canvas id="myChart1" role="img"></canvas>
@@ -209,10 +216,9 @@
 			// *********   CHART 1: Hard Coded Bar Graph: Market Cap   ***********
 
 			var ctx = document.getElementById("myChart1").getContext("2d");
-			//var width = window.innerWidth || document.body.clientWidth;
 			var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
 			gradientStroke.addColorStop(0,"#185a9d" );
-			//gradientStroke.addColorStop(0.5, "#94d973");
+			//gradientStroke.addColorStop(0.3, "#41B995");
 			//gradientStroke.addColorStop(0.6, "#fad874");
 			gradientStroke.addColorStop(1, "#43cea2");
 			
@@ -235,14 +241,14 @@
 							order: 1,
 							hoverBackgroundColor: gradientStroke,
 							borderWidth: 0.2,
-							hoverBorderWidth: 2,
+							hoverBorderWidth: 2.5,
 						},
 					],
 				},
 				options: {
 					layout: {
 						padding: {
-							left: 3,
+							left: 5,
 							right: 10,
 							top: 10,
 							bottom: 30,
@@ -273,14 +279,21 @@
 						callbacks: {
 							label: function (tooltipItem, data) {
 								var longlabel = data.longlabels[tooltipItem.index];
-								return longlabel + ": $" + tooltipItem.xLabel;
+								//return longlabel + ": $" + tooltipItem.xLabel;
+								var valBar = parseFloat(tooltipItem.xLabel).toFixed(2);
+								return valBar < 1000000 ? longlabel + ": " + valBar + ""
+									: valBar < 1000000
+									? longlabel + ": $ " + valBar / 1000 + " K"
+									: valBar < 1000000
+									? longlabel + ": $ " + valBar / 1000000 + " M"
+									: longlabel + ": $  " + valBar / 1000000000 + " B";
 							},
 						},
 					},
 					responsive: true,
 			    	maintainAspectRatio: false,
 					animation: {
-						duration: 1000,
+						duration: 750,
 						easing: "linear",
 					},
 				},
@@ -291,8 +304,8 @@
 				console.log(response);
 				var header = `${paramSelect.options[paramSelect.selectedIndex].innerText} for NASDAQ-100 companies`;
 				myChart.data = {
-					labels: response.compSymbols,
-					longlabels: response.compLongNames,
+					labels: response.compLongNames,
+					longlabels: response.compSymbols,
 					datasets: [
 						{
 							label: header,
@@ -340,81 +353,11 @@
 						console.log(response.compLongNames);
 						console.log(response.compDataVal);
 
-						//var ctx = document.getElementById("myChart1").getContext("2d");
-
 						var compSymbolsNew =  response.compSymbols;
 						var compLongNamesNew = response.compLongNames;
 						var compDataValNew = response.compDataVal;
 						console.log(compSymbolsNew);
 						setChart(response);
-						/*
-						var myChart1 = new Chart(ctx, {
-							type: "horizontalBar",
-							data: {
-								labels: compLongNamesNew,
-								longlabels: compSymbolsNew,
-								datasets: [
-									{
-										label: ""+headerText+" for NASDAQ-100 companies",
-										data: compDataValNew,
-										backgroundColor: gradientStroke,
-										borderColor: "rgb(0,0,0)",
-										order: 1,
-										hoverBackgroundColor: gradientStroke,
-										borderWidth: 0.2,
-										hoverBorderWidth: 2,
-									},
-								],
-							},
-							options: {
-								layout: {
-									padding: {
-										left: 3,
-										right: 10,
-										top: 20,
-										bottom: 30,
-									},
-								},
-								scales: {
-									xAxes: [
-										{
-											display: true,
-											position: "top",
-											ticks: {
-												beginAtZero: true,
-												callback: function (value, index, data) {
-													return value < 1000000
-														? "" + value + ""
-														: value < 1000000
-														? "$ " + value / 1000 + " K"
-														: value < 1000000
-														? "$ " + value / 1000000 + " M"
-														: "$ " + value / 1000000000 + " B";
-												},
-											},
-										},
-									],
-								},
-								tooltips: {
-									callbacks: {
-										label: function (tooltipItem, data) {
-											var longlabel = data.longlabels[tooltipItem.index];
-											return longlabel + ": $" + tooltipItem.xLabel;
-										},
-									},
-								},
-								responsive: true,
-			     				maintainAspectRatio: false,
-								animation: {
-									duration: 500,
-									easing: "linear",
-								},
-							},
-						});
-						*/
-
-
-
 
 					}
 				})

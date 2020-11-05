@@ -5,53 +5,33 @@
 		<%- include('./partials/navbar.ejs') %> <%- include('./partials/landing-page.ejs') %>
 		<%-include('./partials/about-website.ejs') %>
 
-		<div class="container__searchBar" id="searchBar">
-			<form action="/company-search" class="search-company-form" method="POST">
+		<div class="container__searchBar">
+			<form
+				action="/company-search"
+				id="searchBar"
+				type="text"
+				class="search-company-form"
+				method="POST"
+				autocomplete="off"
+			>
 				<input
 					class="searchBar"
-					id="searchBar"
+					autocomplete="off"
+					id="searchBarInput"
 					name="searchBar"
-					type="text"
+					type="search"
 					action="/admin/search"
 					method="POST"
-					placeholder="Enter NASDAQ-100 Company Name"
+					placeholder="Type to select NASDAQ-100 company and press ENTER"
 				/>
 			</form>
 		</div>
 		<br />
 
 		<% if(companyName != null) { %> <%- include('./partials/company-overview.ejs') %>
-		<%if(companyPayoutRatio != "0") { %> <%- include('./partials/dividend.ejs') %> <% } %>
+		<%if(companyPayoutRatio != "0") { %> <%- include('./partials/dividend.ejs') %> <% } %> <% }
+		else { %>
 
-		<!--
-
-		<div class="container__graph-area-3">
-			<form action="#">
-				<p>
-					<input type="checkbox" class="graph-params" value="total-current-assets" />
-					<label for="graph-params">Total Current Assets</label><br />
-				</p>
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Total Non-Current Assets</label><br />
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Total Assets</label><br />
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Total Current Liabilities</label><br />
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Total Non-Current Liabilities</label><br />
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Total Liabilities</label><br />
-
-				<input type="checkbox" class="graph-params" name="" value="" />
-				<label for="graph-params">Stockholders' Equity</label><br />
-			</form>
-		</div> -->
-		<% } else { %>
 		<div class="container__timepass-div">
 			<img
 				class="timepass-background"
@@ -61,9 +41,8 @@
 				width="100%"
 			/>
 			<p class="timepass-text" style="position: absolute; z-index: 10">
-				Enter any NASDAQ-100 company name above in the search bar to view the company's
-				performance through Key Fundamental Parameters and Ratios, visualize their Balance
-				Sheet Parameters and understand their Cash Flows.
+				Enter any NASDAQ-100 company name above in the search bar to view a particular
+				company's performance through Key Fundamental Parameters and Ratios.
 			</p>
 		</div>
 		<% } %>
@@ -147,35 +126,42 @@
 			</div>
 		</div>
 		<script>
-			$(document).ready(function () {
-				$(".submit").on("click", function (e) {
-					console.log(e);
+			$(function () {
+				$("#searchBarInput").autocomplete({
+					source: function (req, res) {
+						console.log("Rx data from searchBar:");
+						//console.log(req);
+						var sendData = req;
+						$.ajax({
+							url: "/autocomplete/",
+							dataType: "jsonp",
+							method: "GET",
+							data: sendData,
+							success: function (data) {
+								console.log(data);
+								res(data);
+							},
+							error: function (err) {
+								console.log(err.status);
+							},
+						});
+					},
+					autoFocus: true,
+					delay: 300,
+					minLength: 1,
+					select: function (event, ui) {
+						if (ui.items) {
+							$("#searchBar").val(ui.item.label);
+						}
+					},
 				});
-			});
-			var companies_list = [
-				{ label: "Amazon.com, Inc", value: "AMZN" },
-				{ label: "Apple Inc", value: "AAPL" },
-				{ label: "Facebook, Inc", value: "FB" },
-				{ label: "Microsoft Corporation", value: "MSFT" },
-			];
-
-			var input = document.getElementById("searchBar");
-
-			autocomplete({
-				input: input,
-				fetch: function (text, update) {
-					text = text.toLowerCase();
-					var suggestions = companies_list.filter((n) =>
-						n.label.toLowerCase().startsWith(text)
-					);
-					update(suggestions);
-					console.log(suggestions);
-				},
-				onSelect: function (item) {
-					input.value = item.label;
-				},
 			});
 		</script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"
+		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	</body>
 </html>

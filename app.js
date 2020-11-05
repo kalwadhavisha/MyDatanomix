@@ -6,11 +6,15 @@ const morgan = require("morgan");
 const CompanyOverview = require("./models/setting-schema");
 var numeral = require("numeral");
 var moment = require("moment");
+let ejs = require("ejs");
 const path = require("path");
 const nodemailer = require("nodemailer");
 const { db } = require("./models/setting-schema");
 const { Console } = require("console");
 const app = express();
+const ejsLint = require("ejs-lint");
+var autocomplete = require("autocompleter");
+const { userInfo } = require("os");
 
 app.use(express.static("public"));
 app.use(morgan("dev"));
@@ -21,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
+moment.suppressDeprecationWarnings = true;
 
 const dbURL =
 	"mongodb+srv://MadhuHavisha:Mishi1234@cluster0.8etrz.mongodb.net/mydatanomixDB?retryWrites=true&w=majority";
@@ -31,8 +36,8 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then((resultDB) =>
-		app.listen(3000, function () {
-			console.log("App listening on port 3000!");
+		app.listen(5000, function () {
+			console.log("App listening on port 5000!");
 		})
 	)
 	.catch((err) => console.log(err));
@@ -140,6 +145,34 @@ app.post("/viz-page", function (req, res) {
 		});
 });
 
+app.get("/autocomplete/", function (req, res, next) {
+	var reqInfo = new RegExp(req.query["term"], "i");
+	console.log("Rx data from autocomplete:");
+	console.log(reqInfo);
+
+	var compFilter = CompanyOverview.find({ Name: reqInfo }, { Name: 1, Symbol: 1 }).limit(10);
+	compFilter.exec(function (err, data) {
+		console.log("Data to be sent:");
+		console.log(data);
+		var result = [];
+		if (!err) {
+			if (data && data.length && data.length > 0) {
+				data.forEach((comp) => {
+					let obj = {
+						id: comp._id,
+						label: comp.Name,
+						sym: comp.Symbol,
+					};
+					result.push(obj);
+				});
+			}
+		}
+		console.log("Logging result: --------");
+		console.log(result);
+		res.jsonp(result);
+	});
+});
+
 app.get("/company-search", function (req, res) {
 	res.render("index", {
 		companyName: null,
@@ -194,6 +227,87 @@ app.get("/company-search", function (req, res) {
 	//console.log("In get");
 });
 
+app.post("/company-search", function (req, res) {
+	console.log("In post");
+	const compName = req.body.searchBar;
+	console.log(compName);
+	console.log({ Name: compName });
+	CompanyOverview.find({ Name: compName })
+		.then((result) => {
+			res.render("index", {
+				companyName: result[0].Name,
+				companyTicker: result[0].Symbol,
+				companySector: result[0].Sector,
+				companyIndustry: result[0].Industry,
+				companyHQ: result[0].Address,
+				companyTrailingPE: result[0].TrailingPE,
+				companyForwardPE: result[0].ForwardPE,
+				companyAssetType: result[0].AssetType,
+				companyExchange: result[0].Exchange,
+				companyLatestQuarter: moment(result[0].LatestQuarter).format("LL"),
+				companyPERatio: result[0].PERatio,
+				companyPEGRatio: result[0].PEGRatio,
+				companyPriceToSales: result[0].PriceToSalesRatioTTM,
+				companyPriceToBook: result[0].PriceToBookRatio,
+				companyEVToRevenue: result[0].EVToRevenue,
+				companyEVTOEBITDA: result[0].EVToEBITDA,
+				companyMarketCap: numeral(result[0].MarketCapitalization)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companyEBITDA: numeral(result[0].EBITDA).format("(0.000 a)").toUpperCase(),
+				companyBookValue: result[0].BookValue,
+				companyEPS: result[0].EPS,
+				companyRevenuePerShare: parseFloat(result[0].RevenuePerShareTTM),
+				companyProfitMargin: numeral(result[0].ProfitMargin).format("(0.000 %)"),
+				companyOperatingMargin: numeral(result[0].OperatingMarginTTM).format("(0.000 %)"),
+				companyReturnOnAssets: numeral(result[0].ReturnOnAssetsTTM).format("(0.000 %)"),
+				companyReturnOnEquity: numeral(result[0].ReturnOnEquityTTM).format("(0.000 %)"),
+				companyRevenue: numeral(result[0].RevenueTTM).format("(0.000 a)").toUpperCase(),
+				companyGrossProfit: numeral(result[0].GrossProfitTTM)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companyDilutedEPS: result[0].DilutedEPSTTM,
+				companyQuarterlyEarningsYOY: numeral(result[0].QuarterlyEarningsGrowthYOY).format(
+					"(0.000 %)"
+				),
+				companyQuarterlyRevenueYOY: numeral(result[0].QuarterlyRevenueGrowthYOY).format(
+					"(0.000 %)"
+				),
+				companyBeta: result[0].Beta,
+				companySharesOutstanding: numeral(result[0].SharesOutstanding)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companySharesFloat: numeral(result[0].SharesFloat)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companySharesShort: numeral(result[0].SharesShort)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companySharesShortPriorMonth: numeral(result[0].SharesShortPriorMonth)
+					.format("(0.000 a)")
+					.toUpperCase(),
+				companyShortRatio: result[0].ShortRatio,
+				companyShortPercentOutstanding: result[0].ShortPercentOutstanding,
+				companyShortPercentFloat: result[0].ShortPercentFloat,
+				companyPercentInsiders: result[0].PercentInsiders,
+				companyPercentInstitutions: result[0].PercentInstitutions,
+				companyForwardAnnualDividendRate: result[0].ForwardAnnualDividendRate,
+				companyForwardAnnualDividendYield: result[0].ForwardAnnualDividendYield,
+				companyPayoutRatio: result[0].PayoutRatio,
+				companyDividendDate: moment(result[0].DividendDate).format("LL"),
+				companyExDividendDate: moment(result[0].ExDividendDate).format("LL"),
+				companyLastSplitFactor: result[0].LastSplitFactor,
+				companyLastSplitDate: moment(result[0].LastSplitDate).format("LL"),
+				companyDividendPerShare: result[0].DividendPerShare,
+				companyDividendYield: result[0].DividendYield,
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+// ************************************************************
+/*
 app.post("/company-search", function (req, res) {
 	console.log("In post");
 	const compName = req.body.searchBar.toUpperCase();
@@ -258,48 +372,5 @@ app.post("/company-search", function (req, res) {
 		.catch((err) => {
 			console.log(err);
 		});
-});
-
-/*
-
-// POST route from contact form
-app.post("/contact-form", (req, res) => {
-	console.log("Request: *************");
-	console.log(req.body);
-	console.log("Response: *************");
-	console.log(res.body);
-	var GMAIL_USER = mydatanomix@gmail.com;
-	var GMAIL_PASS = "Shrihari10./";
-	// Instantiate the SMTP server
-	const smtpTrans = nodemailer.createTransport({
-		host: "smtp.gmail.com",
-		port: 465,
-		secure: true,
-		auth: {
-			user: GMAIL_USER,
-			pass: GMAIL_PASS,
-		},
-	});
-
-	// Specify what the email will look like
-	const mailOpts = {
-		from: `(${req.body.name})`, // This is ignored by Gmail
-		to: GMAIL_USER,
-		subject: "New message from:" + `(${req.body.name})` + "E-mail " + `(${req.body.email})`,
-		text: `${req.body.name} (${req.body.email}) says: ${req.body.message}`,
-	};
-
-	// Attempt to send the email
-	smtpTrans.sendMail(mailOpts, (error, response) => {
-		console.log("Sending Stuff: *************");
-		console.log(mailOpts);
-		if (error) {
-			//response.render("#success-message"); // Show a page indicating failure
-			console.log(error);
-		} else {
-			//response.render("#error-message"); // Show a page indicating success
-			console.log("Successful!!");
-		}
-	});
 });
 */
