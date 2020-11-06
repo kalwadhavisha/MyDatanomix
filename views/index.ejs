@@ -9,7 +9,7 @@
 			<form
 				action="/company-search"
 				id="searchBar"
-				type="text"
+				type="search"
 				class="search-company-form"
 				method="POST"
 				autocomplete="off"
@@ -20,7 +20,6 @@
 					id="searchBarInput"
 					name="searchBar"
 					type="search"
-					action="/admin/search"
 					method="POST"
 					placeholder="Type to select NASDAQ-100 company and press ENTER"
 				/>
@@ -129,7 +128,7 @@
 			$(function () {
 				$("#searchBarInput").autocomplete({
 					source: function (req, res) {
-						console.log("Rx data from searchBar:");
+						//console.log("Rx data from searchBar:");
 						//console.log(req);
 						var sendData = req;
 						$.ajax({
@@ -152,6 +151,9 @@
 					select: function (event, ui) {
 						if (ui.items) {
 							$("#searchBar").val(ui.item.label);
+							console.log("Rx data from searchBar:");
+							console.log(ui.item.label);
+							console.log(ui.item.sym);
 						}
 					},
 				});

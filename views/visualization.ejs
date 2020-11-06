@@ -171,13 +171,13 @@
 				style="margin-top: 12vh; margin-left: 10px;  margin-right: 10px"
 			>
 				<div
-					class="side-bar-info-heading"
+					class="side-bar-info-heading" id="replaceHeader"
 					style="color: #004b98; font-weight: bold; font-size: 24px"
 				>
 					Market Capitalization
 				</div>
 				<div
-					class="side-bar-info-desc"
+					class="side-bar-info-desc" id="replaceDesc"
 					style="margin-top: 2vh; color: #777; font-size: 18px"
 				>
 					Total number of outstanding shares multiplied by the
@@ -319,6 +319,8 @@
 						},
 					],
 				}
+				document.getElementById("replaceHeader").innerText = response.compDisplayHeader;
+				document.getElementById("replaceDesc").innerText = response.compDisplayDesc;
 				myChart.update();
 			}
 
@@ -327,19 +329,20 @@
 			function ChangeParamsDisplay() {
 
 				var paramSelect = document.getElementById("paramSelect");
-
+				var description = paramSelect.options[paramSelect.selectedIndex].innerHTML;
 				var valToSendApp = paramSelect.options[paramSelect.selectedIndex].value;
 				console.log("Value To Send ----------");
 				console.log(valToSendApp);
 				var dataToSend = {};
 				dataToSend.name = valToSendApp;
+				dataToSend.desc = description;
 				console.log("Data To Send ---------");
 				console.log(dataToSend);
 				var headerText = paramSelect.options[paramSelect.selectedIndex].innerText;
 				var compSymbols ;
 				var compLongNames ;
 				var compDataVal;
-				//myChart.destroy();
+
 
 
 				$.ajax({
@@ -356,7 +359,11 @@
 						var compSymbolsNew =  response.compSymbols;
 						var compLongNamesNew = response.compLongNames;
 						var compDataValNew = response.compDataVal;
-						console.log(compSymbolsNew);
+						var compDisplayHeader = response.compDisplayHeader;
+						var compDisplayDesc = response.compDisplayDesc;
+						console.log("Getting header and desc info: ");
+						console.log(compDisplayHeader);
+						console.log(compDisplayDesc);
 						setChart(response);
 
 					}

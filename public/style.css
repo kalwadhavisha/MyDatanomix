@@ -159,7 +159,7 @@ body {
   background-color: #003d94;
   border: none;
   color: #fff;
-  box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2); }
+  box-shadow: 5px 15px 25px 0 rgba(46, 61, 73, 0.2); }
 
 .ui-autocomplete {
   z-index: 1000;
@@ -399,6 +399,7 @@ body {
       transform: translate(-50%, -50%);
       font-family: "Source Sans Pro", sans-serif;
       font-weight: 500;
+      width: 90%;
       font-size: 1.4rem;
       color: #000;
       line-height: 1.2; }
@@ -407,7 +408,7 @@ body {
     .container__graph-area-ratios .graph-area-squares:hover .graph-area-value {
       opacity: 0; }
     .container__graph-area-ratios .graph-area-squares:hover {
-      background: linear-gradient(to right bottom, #fefefe, #ccc);
+      background: linear-gradient(to right bottom, #ffffff, #dedede);
       border: none;
       box-shadow: 0 0 1rem #999; }
     .container__graph-area-ratios .graph-area-squares:hover .hover-display {
