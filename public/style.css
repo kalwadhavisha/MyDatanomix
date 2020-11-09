@@ -413,6 +413,67 @@ body {
       box-shadow: 0 0 1rem #999; }
     .container__graph-area-ratios .graph-area-squares:hover .hover-display {
       opacity: 1; }
+  .container__graph-area-ratios-dividend {
+    grid-column: center-start / center-end;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); }
+    .container__graph-area-ratios-dividend .graph-area-squares {
+      grid-template-columns: 70px 70px 70px 70px;
+      grid-template-rows: 40px;
+      margin: 10px;
+      display: grid;
+      padding-left: 2vw;
+      padding-top: 2vh;
+      padding-bottom: 3vh;
+      border: 0.5px solid #eee;
+      font-family: "Source Sans Pro", sans-serif;
+      border-radius: 10px;
+      position: relative;
+      transition: all 0.5s;
+      background: #ffffff;
+      grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); }
+      .container__graph-area-ratios-dividend .graph-area-squares .graph-area-header {
+        display: flex;
+        padding-top: 1vh;
+        justify-content: flex-start;
+        font-family: "Source Sans Pro", sans-serif;
+        font-weight: 400;
+        font-size: 1.5rem;
+        color: #888;
+        line-height: 1.2; }
+      .container__graph-area-ratios-dividend .graph-area-squares .graph-area-value {
+        display: flex;
+        justify-content: flex-start;
+        color: #000000;
+        font-family: "Source Sans Pro", sans-serif;
+        font-weight: 600;
+        font-size: 2.2rem;
+        line-height: 1.2;
+        padding-bottom: 1vh;
+        grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); }
+    .container__graph-area-ratios-dividend .hover-display {
+      transition: 0.3s ease;
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: "Source Sans Pro", sans-serif;
+      font-weight: 500;
+      width: 90%;
+      font-size: 1.4rem;
+      color: #000;
+      line-height: 1.2; }
+    .container__graph-area-ratios-dividend .graph-area-squares:hover .graph-area-header {
+      opacity: 0; }
+    .container__graph-area-ratios-dividend .graph-area-squares:hover .graph-area-value {
+      opacity: 0; }
+    .container__graph-area-ratios-dividend .graph-area-squares:hover {
+      background: linear-gradient(to right bottom, #ffffff, #dedede);
+      border: none;
+      box-shadow: 0 0 1rem #999; }
+    .container__graph-area-ratios-dividend .graph-area-squares:hover .hover-display {
+      opacity: 1; }
   .container__future-work {
     display: grid;
     margin-top: 10vh;
@@ -462,7 +523,7 @@ body {
       border-radius: 10px;
       border: none;
       box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.2);
-      padding: 20px;
+      padding: 2.8rem;
       font-family: "Source Sans Pro", sans-serif;
       /* Style the submit button with a specific background color etc */
       /* When moving the mouse over the submit button, add a darker green color */ }

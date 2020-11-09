@@ -15,6 +15,7 @@ const app = express();
 const ejsLint = require("ejs-lint");
 var autocomplete = require("autocompleter");
 const { userInfo } = require("os");
+var pjax = require("express-pjax");
 
 app.use(express.static("public"));
 app.use(morgan("dev"));
@@ -59,14 +60,128 @@ var compDesc = [
 			"It is the ratio of a company's PE Ratio to the company's expected Rate of Growth. PEG Ratios greater than 1 indicate an overvalued stock.",
 	},
 	{
-		header: "Gross Profit",
+		header: "Book Value",
 		headerDesc:
-			"It is the total profit of a company calculated by Revenue minus the costs associated with making and selling its products or providing services.",
+			"It is the total value of the company's assets minus the company's outstanding liabilities. If a stock trades below the book value, it is an opportunity to buy the company's assets at less than they are worth.",
 	},
 	{
-		header: "Gross Profit",
+		header: "Earnings Per Share",
 		headerDesc:
-			"It is the total profit of a company calculated by Revenue minus the costs associated with making and selling its products or providing services.",
+			"It is the total profit of a company divided by the outstanding shares of its common stock. Higher the EPS, more profitable the company is.",
+	},
+	{
+		header: "Diluted EPS",
+		headerDesc:
+			"It is used to gauge the quality of a company's EPS if all convertible securities were exercised. Diluted EPS tends to be lower than EPS.",
+	},
+	{
+		header: "Revenue Per Share",
+		headerDesc:
+			"It is the total revenue earned per share divided by the total shares outstanding over a designated period, quarterly, semi-annually or Trailing Twelve Months (TTM). Also known as Sales Per Share",
+	},
+	{
+		header: "Profit Margin",
+		headerDesc:
+			"It represents profits generated for each dollar of sale. Higher profit margins are indicators of a company's financial health, management skills and growth potential. ",
+	},
+	{
+		header: "Operating Margin",
+		headerDesc:
+			"It is the total profit of a company makes on every dollar of sales after paying for variale costs of production, wages, materials etc, but before paying interest or tax. Increasing operating margin indicates a company whose profitability is improving over time.",
+	},
+	{
+		header: "Return on Assets",
+		headerDesc:
+			"It is calculated by dividing net income by total assets. It is an indicator of how well a company utilizes its assets and how profitable a company is relative to its total assets. Higher ROA indicates more asset efficiency.",
+	},
+	{
+		header: "Return on Equity",
+		headerDesc:
+			"It is calculated by dividing net income by shareholders' equity. It is an indicator of profitability of a company in relation to stockholders' equity. ROE greater than 0.14 (Long term avg. of S&P 500) is an ideal ratio.",
+	},
+	{
+		header: "Quarterly Earnings Growth YoY",
+		headerDesc:
+			"It is the company's earnings growth of the current quarter as compared to the same quarter one year ago. It indicates the earnings growth of the company over time.",
+	},
+	{
+		header: "Quarterly Revenue Growth YoY",
+		headerDesc:
+			"It is the company's revenue growth of the current quarter as compared to the same quarter one year ago. It indicates the growth of the company's sales over time.",
+	},
+	{
+		header: "Price to Sales Ratio",
+		headerDesc:
+			"It is the company's market capitalization divided by the company's total sales or revenue over the past 12 months. Low P/S ratios can indicate unrecognized value potential as long as the company has high profit margins, low debt levels and high growth prospects. ",
+	},
+	{
+		header: "Price to Book Ratio",
+		headerDesc:
+			"It is used to compare a company's market capitalization to its books value. Obtained by dividing company's stock per share by its book value per share. Also known as price-equity ratio. P/B ratios under 1 can indicate solid investments as long as the company has high profit margins, low debt levels and high growth prospects.",
+	},
+	{
+		header: "EV to Revenue",
+		headerDesc:
+			"It is the measure of the value of a stock that compares a company's enterprise value to its revenue. Often used to determine a company's valuation in the case of a potential acquisition.",
+	},
+	{
+		header: "EV to EBITDA",
+		headerDesc:
+			"It is a metric used as a valuation tool to compare the value of a company, debt included, to the company’s cash earnings minus non-cash expenses. It strips out debt costs, taxes, appreciation, and amortization, thereby providing a clearer picture of the company's financial performance. EV/EBITDA values below 10 are seen as healthy but varies within sectors. ",
+	},
+	{
+		header: "Beta Value",
+		headerDesc:
+			"It is a numeric value that measures the fluctuations of a stock to changes in the overall stock market. Beta value of 1.5 indicates 50% greater volatility than the market.",
+	},
+	{
+		header: "Short Ratio",
+		headerDesc:
+			"It gives you an insight into how a company's stock price is likely to move. Lower short ratio indicates improved investor sentiments and good chance of stock price going up.",
+	},
+	{
+		header: "Short Percentage Outstanding",
+		headerDesc:
+			"It is the number of shorted shares divided by the number of shares outstanding. Higher ratios indicate pessimistic investor sentiment.",
+	},
+	{
+		header: "Short Percentage Float",
+		headerDesc:
+			"It is the number of shares shorted by institutional traders divided by the number of shares outstanding. Institutional traders are first to sell when the markets are at peak hence this ratio is the key to understand institutions behavior.",
+	},
+	{
+		header: "Insiders Percentage",
+		headerDesc:
+			"It is the percentage of shares held by insiders/individuals of the total outstanding shares.",
+	},
+	{
+		header: "Institutions Percentage",
+		headerDesc:
+			"It is the percentage of shares held by institutions of the total outstanding shares.",
+	},
+	{
+		header: "Payout Ratio",
+		headerDesc:
+			"It is the proportion of earnings a company pays shareholders in the form of dividends, expressed as a ratio of company's total earnings. Total dividends divided by net income. ALso known as Dividend Payout Ratio",
+	},
+	{
+		header: "Dividend Yield",
+		headerDesc:
+			"It is the ratio of annual dividends per share divided by its current stock price. About 0.04 to 0.06 is a good dividend yield",
+	},
+	{
+		header: "Dividend Per Share",
+		headerDesc:
+			"It is the total dividends paid out over a period divided by shares outstanding. Higher Dividends per share indicate strong company performance.",
+	},
+	{
+		header: "Forward Annual Dividend Yield",
+		headerDesc: "It is the ratio of a company's annual dividend compared to its share price.",
+	},
+	{
+		header: "Forward Annual Dividend Rate",
+		headerDesc:
+			"It is is expressed as a dollar figure and is the combined total of dividend payments expected. Also used interchangably with dividend yield.  .",
 	},
 ];
 
@@ -285,12 +400,12 @@ app.get("/company-search", function (req, res) {
 
 app.post("/company-search", function (req, res) {
 	console.log("In post");
-	const compName = req.body.searchBar;
+	const compName = req.body.data;
 	console.log(compName);
 	console.log({ Name: compName });
 	CompanyOverview.find({ Name: compName })
 		.then((result) => {
-			res.render("index", {
+			res.json({
 				companyName: result[0].Name,
 				companyTicker: result[0].Symbol,
 				companySector: result[0].Sector,
@@ -343,19 +458,27 @@ app.post("/company-search", function (req, res) {
 					.format("(0.000 a)")
 					.toUpperCase(),
 				companyShortRatio: result[0].ShortRatio,
-				companyShortPercentOutstanding: result[0].ShortPercentOutstanding,
-				companyShortPercentFloat: result[0].ShortPercentFloat,
-				companyPercentInsiders: result[0].PercentInsiders,
-				companyPercentInstitutions: result[0].PercentInstitutions,
-				companyForwardAnnualDividendRate: result[0].ForwardAnnualDividendRate,
-				companyForwardAnnualDividendYield: result[0].ForwardAnnualDividendYield,
+				companyShortPercentOutstanding: numeral(result[0].ShortPercentOutstanding).format(
+					"0.000 %"
+				),
+				companyShortPercentFloat: numeral(result[0].ShortPercentFloat).format("0.000 %"),
+				companyPercentInsiders: numeral(result[0].PercentInsiders).format("0.000 %"),
+				companyPercentInstitutions: numeral(result[0].PercentInstitutions).format(
+					"0.000 %"
+				),
+				companyForwardAnnualDividendRate: numeral(
+					result[0].ForwardAnnualDividendRate
+				).format("0.000 %"),
+				companyForwardAnnualDividendYield: numeral(
+					result[0].ForwardAnnualDividendYield
+				).format("0.000 %"),
 				companyPayoutRatio: result[0].PayoutRatio,
 				companyDividendDate: moment(result[0].DividendDate).format("LL"),
 				companyExDividendDate: moment(result[0].ExDividendDate).format("LL"),
 				companyLastSplitFactor: result[0].LastSplitFactor,
 				companyLastSplitDate: moment(result[0].LastSplitDate).format("LL"),
 				companyDividendPerShare: result[0].DividendPerShare,
-				companyDividendYield: result[0].DividendYield,
+				companyDividendYield: numeral(result[0].DividendYield).format("0.000 %"),
 			});
 		})
 		.catch((err) => {
