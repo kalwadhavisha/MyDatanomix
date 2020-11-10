@@ -275,7 +275,7 @@ app.get("/viz-page", function (req, res) {
 });
 
 app.post("/viz-page", function (req, res) {
-	console.log("Data Receiverd Printed  ***************************");
+	//console.log("Data Receiverd Printed  ***************************");
 	console.log(req.body.name);
 	var subs = req.body.name;
 	var desc = req.body.desc;
