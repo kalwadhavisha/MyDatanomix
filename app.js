@@ -194,8 +194,8 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then((resultDB) =>
-		app.listen(80, function () {
-			console.log("App listening on port 80!");
+		app.listen(8080, function () {
+			console.log("App listening on port 8080!");
 		})
 	)
 	.catch((err) => console.log(err));
